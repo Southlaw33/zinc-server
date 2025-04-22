@@ -1,5 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 type Post = {
   id: string;
@@ -14,8 +15,14 @@ const posts: Post[] = [
 ];
 
 const allRoutes = new Hono();
+
+allRoutes.use(
+  cors({
+    origin: "http://localhost:4000",
+  })
+);
 allRoutes.get("/posts", async (c) => {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   return c.json(posts);
 });
 
